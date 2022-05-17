@@ -19,5 +19,3 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
-
-one = '213kj23kl12j3o1i2u b40239u4o23hj45 2o3hjr  qoç23ioç23hj44 q2lç3ih4 ql234hq2l3ç4h qç23lkh4 q2çl34h q2çl3k4h '
