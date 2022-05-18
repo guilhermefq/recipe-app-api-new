@@ -14,12 +14,16 @@ ARG DEV=false
 
 # um unico comando para evitar a criação de camadas no container
 RUN python -m venv /py && \
+    apk update && \
+    apk add --virtual build-deps gcc python3-dev musl-dev && \
+    apk add --no-cache mariadb-dev && \
     /py/bin/pip install --upgrade pip && \
     /py/bin/pip install -r /tmp/requirements.txt && \
     if [ "$DEV" = "true" ]; \
         then /py/bin/pip install -r /tmp/requirements.dev.txt; \
     fi && \
     rm -rf /tmp && \
+    apk del build-deps && \
     adduser \
       --disabled-password \
       --no-create-home \
