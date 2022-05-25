@@ -27,9 +27,11 @@ class UserSerializer(serializers.ModelSerializer):
     # instance is the user object
     def update(self, instance, validated_data):
         """Update a user, setting the password correctly and return it."""
+        # pop() removes the key-value pair from the dict, none if not found
         password = validated_data.pop(
-            'password', None)  # pop() removes the key-value pair from the dict, none if not found
-        user = super().update(instance, validated_data)  # call the parent method
+            'password', None)
+        # call the parent method
+        user = super().update(instance, validated_data)
 
         if password:
             user.set_password(password)

@@ -45,3 +45,5 @@ class UserAdmin(BaserUserAdmin):
 
 # Register the user model with the admin site
 admin.site.register(models.User, UserAdmin)
+# Register the recipe model with the admin site
+admin.site.register(models.Recipe)
