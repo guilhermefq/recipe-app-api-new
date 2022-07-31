@@ -48,3 +48,4 @@ admin.site.register(models.User, UserAdmin)
 # Register the recipe model with the admin site
 admin.site.register(models.Recipe)
 admin.site.register(models.Tag)
+admin.site.register(models.Ingredient)

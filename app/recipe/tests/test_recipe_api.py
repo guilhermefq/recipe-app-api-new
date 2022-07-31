@@ -275,7 +275,7 @@ class PrivateRecipeApiTests(TestCase):
         url = detail_url(recipe.id)
         res = self.client.patch(url, payload, format='json')
 
-        self.assertEqual(res.status_code, status.HTTP_200_OK)sud
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
         new_tag = Tag.objects.get(user=self.user, name='Tag 1')
         self.assertIn(new_tag, recipe.tags.all())
 
