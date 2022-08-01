@@ -59,7 +59,9 @@ class TagViewSet(mixins.DestroyModelMixin,
         ).order_by('-name')
 
 
-class IngredientViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class IngredientViewSet(mixins.UpdateModelMixin,
+                        mixins.ListModelMixin,
+                        viewsets.GenericViewSet):
     """View for manage ingredients APIs"""
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
