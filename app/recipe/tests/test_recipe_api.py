@@ -1,7 +1,6 @@
 """
 Tests for recipe APIs
 """
-from ctypes.wintypes import RGB
 from decimal import Decimal
 import tempfile
 import os

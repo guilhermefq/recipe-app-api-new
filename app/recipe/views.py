@@ -1,6 +1,12 @@
 """
 Views for the recipe APIs
 """
+from drf_spectacular.utils import (
+    extend_schema_view,
+    extend_schema,
+    OpenApiParameter,
+    OpenApiTypes,
+)
 from rest_framework import (
     viewsets,
     mixins,
@@ -19,17 +25,46 @@ from core.models import (
 from recipe import serializers
 
 
+@extend_schema_view(
+    list=extend_schema(
+        parameters=[
+            OpenApiParameter(
+                'tags',
+                OpenApiTypes.STR,
+                description='Comma separated list of IDs to filter',
+            ),
+            OpenApiParameter(
+                'ingredients',
+                OpenApiTypes.STR,
+                description='Comma separated list of ingredient IDs to filter'
+            )
+        ]
+    )
+)
 class RecipeViewSet(viewsets.ModelViewSet):
     """View for manage recipe APIs"""
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
-
     queryset = Recipe.objects.all()
     serializer_class = serializers.RecipeDetailSerializer
 
+    def _params_to_str(self, qs):
+        """Convert a lista of UUID to str"""
+        return [str(uuid) for uuid in qs.split(',')]
+
     # to filter the queryset, and find the recipes that belong to the user
     def get_queryset(self):
-        return self.queryset.filter(
+        tags = self.request.query_params.get('tags')
+        ingredients = self.request.query_params.get('ingredients')
+        queryset = self.queryset
+        if tags:
+            tags_id = self._params_to_str(tags)
+            queryset = queryset.filter(tags__id__in=tags_id)
+        if ingredients:
+            ingredients_id = self._params_to_str(ingredients)
+            queryset = queryset.filter(ingredients__id__in=ingredients_id)
+
+        return queryset.filter(
             user=self.request.user
         ).order_by('-created_at')
 
